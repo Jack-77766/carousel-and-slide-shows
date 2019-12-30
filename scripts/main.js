@@ -68,12 +68,14 @@ const refreshDelay = 20;
 
 //INITIAL POSITIONS
 for(i = 0; i < carouselImages.length; i++) {
-    carouselImages[i].style.transform = "translateX("+ (i*220) + "px";
+    carouselImages[i].style.transform = "translateX("+ (i*(carouselImageWidth+carouselGap)) + "px";
     console.log(carouselImages[i].style.transform);
 }
 
-carouselArrowLeft.addEventListener('click', leftClick);
-carouselArrowRight.addEventListener('click', rightClick);
+//We set the listener to only work once and then reset-it in the function
+//so its not spammed and we can control how fast the user can click it
+carouselArrowLeft.addEventListener('click', leftClick, {once:true});
+carouselArrowRight.addEventListener('click', rightClick, {once:true});
 
 async function leftClick() {
     for(i = 0; i < carouselImages.length; i++) {
@@ -83,6 +85,10 @@ async function leftClick() {
         else 
             move(image, 'left');
     }
+    //we set a delay for reclicking the button
+    setTimeout(()=> {
+        carouselArrowLeft.addEventListener('click', leftClick, {once:true});
+    }, 500)
 }
 
 async function rightClick() {
@@ -93,13 +99,17 @@ async function rightClick() {
         else
             move(image, 'right');
     }
+    //we set a delay for reclicking the button
+    setTimeout(()=> {
+        carouselArrowRight.addEventListener('click', rightClick, {once:true});
+    }, 500)
 }
 
 
 function move(image, direction) {
     let targetX = getTransform(image);
     if(direction == 'left')
-            targetX +=  -220;
+        targetX += -220;
     else 
         targetX += 220;
     image.style.transform = "translateX(" + targetX + "px)";
@@ -114,19 +124,21 @@ function getTransform(image) {
 }
 
 
-function around(image, direction) {
-    half1(image, direction);
-}
 
-
-function half1(image,direction) {
-    image.style.transition = "transform " + halfAnimation+ "ms ease-in"
+/* We move the image around in a 3-step process
+    -we move it half-way 
+    -take it to the other side of the container
+    -move it the final half
+*/
+function around(image,direction) {
+    image.style.transition = "transform " + halfAnimation + "ms ease-in"
     if(direction == 'left')
         image.style.transform = "translateX(-110px)";
     else
         image.style.transform = "translateX(990px)";
        
     setTimeout(()=>{
+        /* We make it invisible for the next part where it has to go around*/
         image.style.visibility = 'hidden';
         image.style.transition = "transform 0ms";
         back(image, direction);
@@ -139,6 +151,8 @@ function back(image,direction) {
     else
         image.style.transform = "translateX(-110px)";
     setTimeout(()=> {
+        /* We set a refreshDelay for the browser not to display the image
+           while its moving around */
         image.style.visibility = 'visible';
         image.style.transition = "transform " + (halfAnimation-(refreshDelay*2)) +"ms ease-in";
         half2(image,direction);
@@ -151,6 +165,7 @@ function half2(image, direction) {
     else
         image.style.transform = "translateX(0px)";
     setTimeout(()=>{
+        //We reset the transition to the normal 
         image.style.transition = "transform 350ms ease-in"
     }, (halfAnimation));
 }
