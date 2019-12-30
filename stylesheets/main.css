@@ -1,0 +1,123 @@
+:root{
+    --fadeAnimationDelay: 800ms;
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+/*-----------FADE-SLIDE-SHOW------------*/
+
+.fade-slide-show {
+    width: 80%;
+    margin: auto;
+}
+.fade-slide-show h1 {
+    background: black;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    margin: 1em auto 0 auto;
+    padding: 1em;
+    width: 400px;
+}
+.fade-slide-show-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 400px;
+    align-items: center;
+}
+.fade-image {
+    display: block;
+    margin: auto;
+    transition: opacity var(--fadeAnimationDelay) ease-in;
+    opacity: 0;
+}
+
+.hide {
+    display: none;
+    opacity:0;
+}
+
+.fade-arrow-left {
+    justify-self: right;
+}
+.fade-out {
+    opacity: 0;
+}
+.fade-in {
+    opacity: 1;
+}
+
+
+/*----------CAROUSEL-------------*/
+:root {
+    --carousel-image-width: 200;
+    --carousel-image-gap: 20px;
+    --full-move: 350ms;
+    --half-move: 175ms;
+}
+
+.carousel {
+    margin: 5em auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel h1 {
+    font-size: 3rem;
+    padding: 1em;
+}
+
+.carousel-container {
+    display: inline-block;
+    position: relative;
+    width: 1100px;
+    overflow: hidden;
+    height: 400px;
+    z-index: 1;
+}
+.carousel-container::before {
+    content:'';
+    position: absolute;
+    top:0;
+    bottom:0;
+    left: 0;
+    width: 420px;
+    z-index: 3;
+    background: linear-gradient(to right, white,
+                                          rgba(255, 255, 255, 0.9), 
+                                          rgba(255, 255, 255, 0.7), 
+                                          rgba(255, 255, 255, 0.6)); 
+}
+.carousel-container::after {
+    content:'';
+    position: absolute;
+    top:0;
+    bottom:0;
+    right: 0;
+    width: 440px;
+    z-index: 3;
+    background: linear-gradient(to left,white,
+                                        rgba(255, 255, 255, 0.9),  
+                                        rgba(255, 255, 255, 0.7), 
+                                        rgba(255, 255, 255, 0.6)); 
+}
+
+.carousel-image {
+    position: absolute;
+    width: var(--carousel-image-width)px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: transform var(--full-move) ease-in;
+}
+
+
+
