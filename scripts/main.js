@@ -77,7 +77,7 @@ for(i = 0; i < carouselImages.length; i++) {
 carouselArrowLeft.addEventListener('click', leftClick, {once:true});
 carouselArrowRight.addEventListener('click', rightClick, {once:true});
 
-async function leftClick() {
+function leftClick() {
     for(i = 0; i < carouselImages.length; i++) {
         let image = carouselImages[i];
         if(image.style.transform == "translateX(0px)")
@@ -88,10 +88,10 @@ async function leftClick() {
     //we set a delay for reclicking the button
     setTimeout(()=> {
         carouselArrowLeft.addEventListener('click', leftClick, {once:true});
-    }, 500)
+    }, (fullAnimation * 1.4))
 }
 
-async function rightClick() {
+function rightClick() {
     for(i = 0; i < carouselImages.length; i++) {
         let image = carouselImages[i];
         if(image.style.transform == "translateX(880px)")
@@ -102,7 +102,7 @@ async function rightClick() {
     //we set a delay for reclicking the button
     setTimeout(()=> {
         carouselArrowRight.addEventListener('click', rightClick, {once:true});
-    }, 500)
+    }, (fullAnimation * 1.4))
 }
 
 
